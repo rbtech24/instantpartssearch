@@ -7,17 +7,15 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install all dependencies (needed for build)
-RUN npm ci
+# Install all dependencies (needed for both build and runtime)
+# Note: vite and other build tools are imported by the server code
+RUN npm ci && npm cache clean --force
 
 # Copy application source
 COPY . .
 
-# Build the application
+# Build the application (builds frontend and bundles backend)
 RUN npm run build
-
-# Remove dev dependencies to reduce image size
-RUN npm prune --production && npm cache clean --force
 
 # Expose port 5000
 EXPOSE 5000

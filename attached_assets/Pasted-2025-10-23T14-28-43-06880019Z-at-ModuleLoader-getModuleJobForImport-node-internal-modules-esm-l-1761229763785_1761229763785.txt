@@ -1,0 +1,50 @@
+2025-10-23T14:28:43.06880019Z     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+2025-10-23T14:28:43.06880264Z     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+2025-10-23T14:28:43.068806241Z   code: 'ERR_MODULE_NOT_FOUND'
+2025-10-23T14:28:43.068812261Z }
+2025-10-23T14:28:43.068814881Z 
+2025-10-23T14:28:43.068817241Z Node.js v20.19.5
+2025-10-23T14:28:47.743405772Z ==> Exited with status 1
+2025-10-23T14:28:47.759473401Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+2025-10-23T14:28:48.142719071Z 
+2025-10-23T14:28:48.142783665Z > rest-express@1.0.0 start
+2025-10-23T14:28:48.142789125Z > NODE_ENV=production node dist/index.js
+2025-10-23T14:28:48.142791596Z 
+2025-10-23T14:28:48.318575028Z node:internal/modules/esm/resolve:873
+2025-10-23T14:28:48.31860017Z   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+2025-10-23T14:28:48.31860325Z         ^
+2025-10-23T14:28:48.31860528Z 
+2025-10-23T14:28:48.31860793Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /app/dist/index.js
+2025-10-23T14:28:48.31861116Z     at packageResolve (node:internal/modules/esm/resolve:873:9)
+2025-10-23T14:28:48.31861338Z     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+2025-10-23T14:28:48.318615491Z     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+2025-10-23T14:28:48.318617531Z     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+2025-10-23T14:28:48.318619591Z     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+2025-10-23T14:28:48.318621931Z     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+2025-10-23T14:28:48.318624151Z     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+2025-10-23T14:28:48.318626151Z     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+2025-10-23T14:28:48.318628871Z   code: 'ERR_MODULE_NOT_FOUND'
+2025-10-23T14:28:48.318630921Z }
+2025-10-23T14:28:48.318632772Z 
+2025-10-23T14:28:48.318635052Z Node.js v20.19.5
+2025-10-23T14:29:00.032968426Z 
+2025-10-23T14:29:00.032996748Z > rest-express@1.0.0 start
+2025-10-23T14:29:00.033001468Z > NODE_ENV=production node dist/index.js
+2025-10-23T14:29:00.033003658Z 
+2025-10-23T14:29:00.150779166Z node:internal/modules/esm/resolve:873
+2025-10-23T14:29:00.150796217Z   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+2025-10-23T14:29:00.150799617Z         ^
+2025-10-23T14:29:00.150802058Z 
+2025-10-23T14:29:00.150805208Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /app/dist/index.js
+2025-10-23T14:29:00.150813518Z     at packageResolve (node:internal/modules/esm/resolve:873:9)
+2025-10-23T14:29:00.150816209Z     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+2025-10-23T14:29:00.150818789Z     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+2025-10-23T14:29:00.150821349Z     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+2025-10-23T14:29:00.150823719Z     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+2025-10-23T14:29:00.150826279Z     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+2025-10-23T14:29:00.150828699Z     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+2025-10-23T14:29:00.150831009Z     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+2025-10-23T14:29:00.15083409Z   code: 'ERR_MODULE_NOT_FOUND'
+2025-10-23T14:29:00.150836419Z }
+2025-10-23T14:29:00.150890482Z 
+2025-10-23T14:29:00.150896643Z Node.js v20.19.5
