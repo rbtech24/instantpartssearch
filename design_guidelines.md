@@ -15,21 +15,22 @@
 
 ### A. Color Palette
 
-**Dark Mode (Primary):**
+**Light Mode (Primary):**
+- Background: 0 0% 100% (Pure White)
+- Surface: 0 0% 100%
+- Primary (Search/CTA): 210 100% 50%
+- Success (Available): 142 76% 38%
+- Warning (Low Stock): 38 92% 45%
+- Error (Out of Stock): 0 84% 60%
+- Text Primary: 220 15% 12%
+- Text Secondary: 220 10% 40%
+
+**Dark Mode:**
 - Background: 220 15% 12%
 - Surface: 220 15% 18%
-- Primary (Search/CTA): 210 100% 60%
-- Success (Available): 142 76% 45%
-- Warning (Low Stock): 38 92% 50%
-- Error (Out of Stock): 0 84% 60%
+- Primary: 210 100% 60%
 - Text Primary: 0 0% 95%
 - Text Secondary: 220 10% 70%
-
-**Light Mode:**
-- Background: 0 0% 98%
-- Surface: 0 0% 100%
-- Primary: 210 100% 50%
-- Text adjustments with same hue logic
 
 ### B. Typography
 
