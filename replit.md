@@ -17,7 +17,7 @@ Instant Parts Search allows users to search for appliance parts across multiple 
 - **Advanced filtering**: Filter by price range, availability, and specific suppliers
 - **Sorting options**: Sort by price (low/high) or availability
 - **Comparison mode**: Select multiple parts to compare side-by-side
-- **Recent searches**: Shows searches made by all users at the bottom of the page with clickable cards
+- **Recently Found Parts**: Displays actual product cards with images and prices from recent successful searches by all users
 - **Responsive design**: Works on desktop, tablet, and mobile
 - **Dark mode**: Full dark mode support
 
