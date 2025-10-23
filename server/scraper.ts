@@ -159,11 +159,185 @@ class RepairClinicScraper extends SupplierScraper {
   }
 }
 
+// Encompass scraper
+class EncompassScraper extends SupplierScraper {
+  supplierName = "Encompass";
+
+  searchUrl(query: string): string {
+    return `https://encompass.com/search?SearchTerm=${encodeURIComponent(query)}`;
+  }
+
+  async parseResults(html: string, query: string): Promise<PartResult[]> {
+    const $ = cheerio.load(html);
+    const parts: PartResult[] = [];
+
+    // Encompass structure
+    $('.product-item, .search-result-item').each((_, element) => {
+      try {
+        const $item = $(element);
+        
+        const title = $item.find('.product-title, .item-title').text().trim();
+        const partNumber = $item.find('.part-number, .model-number').text().trim();
+        const priceText = $item.find('.price, .product-price').text().trim();
+        const link = $item.find('a').first().attr('href');
+        const image = $item.find('img').first().attr('src');
+        
+        if (title && priceText && link) {
+          const priceMatch = priceText.match(/[\d,.]+/);
+          const price = priceMatch ? parseFloat(priceMatch[0].replace(',', '')) : 0;
+          
+          const availabilityText = $item.find('.availability, .stock-status').text().toLowerCase();
+          let availability: "in_stock" | "low_stock" | "out_of_stock" = "in_stock";
+          if (availabilityText.includes('out of stock')) {
+            availability = "out_of_stock";
+          } else if (availabilityText.includes('limited') || availabilityText.includes('low')) {
+            availability = "low_stock";
+          }
+
+          parts.push({
+            id: this.generateId(this.supplierName, partNumber || query),
+            title,
+            partNumber: partNumber || query.toUpperCase(),
+            supplier: this.supplierName,
+            price,
+            currency: "USD",
+            availability,
+            productUrl: link.startsWith('http') ? link : `https://encompass.com${link}`,
+            imageUrl: image,
+            shippingInfo: price > 75 ? "Free shipping" : "$7.99 shipping",
+          });
+        }
+      } catch (error) {
+        console.error('Error parsing Encompass item:', error);
+      }
+    });
+
+    return parts.slice(0, 10);
+  }
+}
+
+// Marcone scraper
+class MarconeScraper extends SupplierScraper {
+  supplierName = "Marcone";
+
+  searchUrl(query: string): string {
+    return `https://www.marcone.com/search?q=${encodeURIComponent(query)}`;
+  }
+
+  async parseResults(html: string, query: string): Promise<PartResult[]> {
+    const $ = cheerio.load(html);
+    const parts: PartResult[] = [];
+
+    // Marcone structure
+    $('.product-card, .search-item, .part-result').each((_, element) => {
+      try {
+        const $item = $(element);
+        
+        const title = $item.find('.product-name, .item-title, h3').text().trim();
+        const partNumber = $item.find('.part-number, .sku').text().trim();
+        const priceText = $item.find('.price, .product-price').text().trim();
+        const link = $item.find('a').first().attr('href');
+        const image = $item.find('img').first().attr('src');
+        
+        if (title && priceText && link) {
+          const priceMatch = priceText.match(/[\d,.]+/);
+          const price = priceMatch ? parseFloat(priceMatch[0].replace(',', '')) : 0;
+          
+          const availabilityText = $item.find('.availability, .stock').text().toLowerCase();
+          let availability: "in_stock" | "low_stock" | "out_of_stock" = "in_stock";
+          if (availabilityText.includes('out of stock') || availabilityText.includes('unavailable')) {
+            availability = "out_of_stock";
+          } else if (availabilityText.includes('limited') || availabilityText.includes('low')) {
+            availability = "low_stock";
+          }
+
+          parts.push({
+            id: this.generateId(this.supplierName, partNumber || query),
+            title,
+            partNumber: partNumber || query.toUpperCase(),
+            supplier: this.supplierName,
+            price,
+            currency: "USD",
+            availability,
+            productUrl: link.startsWith('http') ? link : `https://www.marcone.com${link}`,
+            imageUrl: image,
+            shippingInfo: "Next-day delivery available",
+          });
+        }
+      } catch (error) {
+        console.error('Error parsing Marcone item:', error);
+      }
+    });
+
+    return parts.slice(0, 10);
+  }
+}
+
+// Sundberg scraper
+class SundbergScraper extends SupplierScraper {
+  supplierName = "Sundberg";
+
+  searchUrl(query: string): string {
+    return `https://www.sundbergamerica.com/search?q=${encodeURIComponent(query)}`;
+  }
+
+  async parseResults(html: string, query: string): Promise<PartResult[]> {
+    const $ = cheerio.load(html);
+    const parts: PartResult[] = [];
+
+    // Sundberg structure
+    $('.product-item, .part-item, .search-result').each((_, element) => {
+      try {
+        const $item = $(element);
+        
+        const title = $item.find('.product-title, .part-name, h3').text().trim();
+        const partNumber = $item.find('.part-number, .sku, .model').text().trim();
+        const priceText = $item.find('.price, .product-price').text().trim();
+        const link = $item.find('a').first().attr('href');
+        const image = $item.find('img').first().attr('src');
+        
+        if (title && priceText && link) {
+          const priceMatch = priceText.match(/[\d,.]+/);
+          const price = priceMatch ? parseFloat(priceMatch[0].replace(',', '')) : 0;
+          
+          const availabilityText = $item.find('.stock, .availability').text().toLowerCase();
+          let availability: "in_stock" | "low_stock" | "out_of_stock" = "in_stock";
+          if (availabilityText.includes('out of stock') || availabilityText.includes('unavailable')) {
+            availability = "out_of_stock";
+          } else if (availabilityText.includes('limited') || availabilityText.includes('low stock')) {
+            availability = "low_stock";
+          }
+
+          parts.push({
+            id: this.generateId(this.supplierName, partNumber || query),
+            title,
+            partNumber: partNumber || query.toUpperCase(),
+            supplier: this.supplierName,
+            price,
+            currency: "USD",
+            availability,
+            productUrl: link.startsWith('http') ? link : `https://www.sundbergamerica.com${link}`,
+            imageUrl: image,
+            shippingInfo: "2-day shipping",
+          });
+        }
+      } catch (error) {
+        console.error('Error parsing Sundberg item:', error);
+      }
+    });
+
+    return parts.slice(0, 10);
+  }
+}
+
 // Factory to get all scrapers
 export function getAllScrapers(): SupplierScraper[] {
   return [
     new AmazonScraper(),
     new RepairClinicScraper(),
+    new EncompassScraper(),
+    new MarconeScraper(),
+    new SundbergScraper(),
   ];
 }
 

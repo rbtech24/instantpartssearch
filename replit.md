@@ -10,7 +10,16 @@ Instant Parts Search allows users to search for appliance parts across multiple 
 
 ## Current Features
 
-- **Real-time multi-supplier search**: Searches multiple suppliers in parallel
+- **Real-time multi-supplier search**: Searches 9 suppliers in parallel
+  - Amazon
+  - RepairClinic
+  - PartSelect
+  - AppliancePartsPros
+  - Sears Parts
+  - ReliableParts.com
+  - **Encompass** (OEM parts specialist)
+  - **Marcone** (North America's largest OEM distributor)
+  - **Sundberg** (Midwest parts supplier since 1912)
 - **Smart caching**: Caches successful search results for 1 hour to reduce repeated scraping
 - **Error handling**: Displays which suppliers succeeded/failed and why
 - **Rate limiting**: 10 searches per minute per IP to prevent abuse
@@ -40,10 +49,11 @@ Instant Parts Search allows users to search for appliance parts across multiple 
 
 The application currently uses **realistic demo data** to showcase features while web scraping is limited by anti-bot protections. The demo includes:
 
-- **15 realistic appliance parts**: refrigerator gaskets, water filters, dishwasher parts, dryer belts, igniters, etc.
-- **5 sample searches**: Showcasing different part categories
-- **13 unique products**: Displayed in the "Recently Found Parts" section
-- **Real pricing**: $12.99 to $189.99 from various suppliers
+- **24 realistic appliance parts**: refrigerator parts, water filters, dishwasher parts, dryer belts, igniters, control boards, etc.
+- **6 sample searches**: Showcasing different part categories across all 9 suppliers
+- **18 unique products**: Displayed in the "Recently Found Parts" section
+- **Real pricing**: $14.50 to $189.99 from various suppliers
+- **All 9 suppliers represented**: Including new additions (Encompass, Marcone, Sundberg)
 
 To disable demo data and use only real search results, set `useDemoData: false` in the MemStorage constructor.
 

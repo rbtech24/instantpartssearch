@@ -175,6 +175,113 @@ export const demoParts: PartResult[] = [
     imageUrl: "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=400&h=400&fit=crop",
     productUrl: "#",
     shippingInfo: "Ships within 24 hours"
+  },
+  {
+    id: "demo-16",
+    title: "Whirlpool Refrigerator Water Inlet Valve",
+    partNumber: "W10408179",
+    supplier: "Encompass",
+    price: 38.99,
+    currency: "USD",
+    availability: "in_stock",
+    imageUrl: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400&h=400&fit=crop",
+    productUrl: "#",
+    shippingInfo: "Free shipping on orders over $75"
+  },
+  {
+    id: "demo-17",
+    title: "GE Dishwasher Door Latch Assembly",
+    partNumber: "WD13X10003",
+    supplier: "Encompass",
+    price: 56.25,
+    currency: "USD",
+    availability: "in_stock",
+    imageUrl: "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=400&h=400&fit=crop",
+    productUrl: "#"
+  },
+  {
+    id: "demo-18",
+    title: "LG Dryer Door Switch",
+    partNumber: "6600ED3001A",
+    supplier: "Encompass",
+    price: 19.95,
+    currency: "USD",
+    availability: "in_stock",
+    imageUrl: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400&h=400&fit=crop",
+    productUrl: "#",
+    shippingInfo: "Ships same day"
+  },
+  {
+    id: "demo-19",
+    title: "Frigidaire Refrigerator Control Board",
+    partNumber: "5304518654",
+    supplier: "Marcone",
+    price: 142.50,
+    currency: "USD",
+    availability: "in_stock",
+    imageUrl: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=400&fit=crop",
+    productUrl: "#",
+    shippingInfo: "Next-day delivery available"
+  },
+  {
+    id: "demo-20",
+    title: "Maytag Washer Suspension Rod Kit",
+    partNumber: "W10780048",
+    supplier: "Marcone",
+    price: 84.99,
+    currency: "USD",
+    availability: "in_stock",
+    imageUrl: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&h=400&fit=crop",
+    productUrl: "#",
+    shippingInfo: "Next-day delivery available"
+  },
+  {
+    id: "demo-21",
+    title: "Samsung Refrigerator Ice Maker",
+    partNumber: "DA97-05422A",
+    supplier: "Marcone",
+    price: 98.00,
+    currency: "USD",
+    availability: "low_stock",
+    imageUrl: "https://images.unsplash.com/photo-1564053489984-317bbd824340?w=400&h=400&fit=crop",
+    productUrl: "#",
+    shippingInfo: "Limited availability - Order now"
+  },
+  {
+    id: "demo-22",
+    title: "Electrolux Dishwasher Heating Element",
+    partNumber: "154827501",
+    supplier: "Sundberg",
+    price: 48.75,
+    currency: "USD",
+    availability: "in_stock",
+    imageUrl: "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=400&h=400&fit=crop",
+    productUrl: "#",
+    shippingInfo: "2-day shipping"
+  },
+  {
+    id: "demo-23",
+    title: "Whirlpool Range Control Knob",
+    partNumber: "WPW10594481",
+    supplier: "Sundberg",
+    price: 14.50,
+    currency: "USD",
+    availability: "in_stock",
+    imageUrl: "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=400&h=400&fit=crop",
+    productUrl: "#",
+    shippingInfo: "2-day shipping"
+  },
+  {
+    id: "demo-24",
+    title: "GE Dryer High Limit Thermostat",
+    partNumber: "WE4M305",
+    supplier: "Sundberg",
+    price: 22.95,
+    currency: "USD",
+    availability: "in_stock",
+    imageUrl: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop",
+    productUrl: "#",
+    shippingInfo: "2-day shipping"
   }
 ];
 
@@ -185,33 +292,39 @@ export function createDemoSearchHistory(): SearchHistory[] {
   return [
     {
       id: "demo-search-1",
-      query: "refrigerator door gasket",
+      query: "refrigerator water inlet valve",
       searchedAt: new Date(now - 5 * 60000), // 5 minutes ago
-      parts: [demoParts[0], demoParts[1], demoParts[10]]
+      parts: [demoParts[15], demoParts[18], demoParts[1]] // Encompass, Marcone, Amazon
     },
     {
       id: "demo-search-2", 
-      query: "dishwasher spray arm",
+      query: "dishwasher door latch",
       searchedAt: new Date(now - 15 * 60000), // 15 minutes ago
-      parts: [demoParts[2], demoParts[7], demoParts[11]]
+      parts: [demoParts[16], demoParts[21], demoParts[2]] // Encompass, Sundberg, PartSelect
     },
     {
       id: "demo-search-3",
-      query: "dryer belt",
+      query: "dryer door switch",
       searchedAt: new Date(now - 25 * 60000), // 25 minutes ago
-      parts: [demoParts[3], demoParts[8], demoParts[13]]
+      parts: [demoParts[17], demoParts[23], demoParts[8]] // Encompass, Sundberg, PartSelect
     },
     {
       id: "demo-search-4",
-      query: "ice maker assembly",
+      query: "refrigerator control board",
       searchedAt: new Date(now - 35 * 60000), // 35 minutes ago
-      parts: [demoParts[5], demoParts[6]]
+      parts: [demoParts[18], demoParts[19]] // Marcone (2 parts)
     },
     {
       id: "demo-search-5",
-      query: "oven igniter",
+      query: "washer suspension rod",
       searchedAt: new Date(now - 45 * 60000), // 45 minutes ago
-      parts: [demoParts[9], demoParts[14]]
+      parts: [demoParts[19], demoParts[4]] // Marcone, Sears Parts
+    },
+    {
+      id: "demo-search-6",
+      query: "range control knob",
+      searchedAt: new Date(now - 55 * 60000), // 55 minutes ago
+      parts: [demoParts[22], demoParts[6]] // Sundberg, ReliableParts
     }
   ];
 }
