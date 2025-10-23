@@ -7,10 +7,22 @@ interface SearchBarProps {
   onSearch: (query: string) => void;
   placeholder?: string;
   isLoading?: boolean;
+  value?: string;
+  onValueChange?: (value: string) => void;
 }
 
-export function SearchBar({ onSearch, placeholder = "Search for parts...", isLoading = false }: SearchBarProps) {
-  const [query, setQuery] = useState("");
+export function SearchBar({ 
+  onSearch, 
+  placeholder = "Search for parts...", 
+  isLoading = false,
+  value: externalValue,
+  onValueChange
+}: SearchBarProps) {
+  const [internalQuery, setInternalQuery] = useState("");
+  
+  // Use external value if provided (controlled), otherwise use internal state (uncontrolled)
+  const query = externalValue !== undefined ? externalValue : internalQuery;
+  const setQuery = onValueChange || setInternalQuery;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

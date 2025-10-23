@@ -28,3 +28,12 @@ export const searchRequestSchema = z.object({
 });
 
 export type SearchRequest = z.infer<typeof searchRequestSchema>;
+
+export const searchHistorySchema = z.object({
+  id: z.string(),
+  query: z.string(),
+  searchedAt: z.date(),
+  resultCount: z.number().optional(),
+});
+
+export type SearchHistory = z.infer<typeof searchHistorySchema>;

@@ -84,6 +84,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         filteredResults = applyFilters(searchResult.parts, filters);
       }
 
+      // Save to search history (asynchronously, don't block response)
+      storage.addSearchHistory(query, searchResult.parts.length).catch(err => {
+        console.error("Failed to save search history:", err);
+      });
+
       // Return results with error information
       res.json({ 
         results: filteredResults, 
@@ -97,6 +102,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Search error:", error);
       res.status(500).json({ 
         error: "Search failed", 
+        message: error instanceof Error ? error.message : "Unknown error" 
+      });
+    }
+  });
+
+  // Get recent searches across all users
+  app.get("/api/recent-searches", async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 20;
+      const recentSearches = await storage.getRecentSearches(limit);
+      res.json({ searches: recentSearches });
+    } catch (error) {
+      console.error("Failed to get recent searches:", error);
+      res.status(500).json({ 
+        error: "Failed to get recent searches", 
         message: error instanceof Error ? error.message : "Unknown error" 
       });
     }

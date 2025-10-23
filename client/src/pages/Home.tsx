@@ -6,6 +6,7 @@ import { SearchProgress } from "@/components/SearchProgress";
 import { FilterPanel } from "@/components/FilterPanel";
 import { EmptyState } from "@/components/EmptyState";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { RecentSearches } from "@/components/RecentSearches";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -99,6 +100,8 @@ export default function Home() {
             onSearch={handleSearch}
             placeholder="Search part number or description..."
             isLoading={isLoading}
+            value={searchQuery}
+            onValueChange={setSearchQuery}
           />
         </div>
       </header>
@@ -232,6 +235,9 @@ export default function Home() {
             )}
           </div>
         </div>
+
+        {/* Recent Searches Section */}
+        <RecentSearches onSearchClick={handleSearch} />
       </main>
     </div>
   );
