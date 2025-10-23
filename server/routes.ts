@@ -85,9 +85,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Save to search history (asynchronously, don't block response)
-      storage.addSearchHistory(query, searchResult.parts.length).catch(err => {
-        console.error("Failed to save search history:", err);
-      });
+      // Only save if we got results
+      if (searchResult.parts.length > 0) {
+        storage.addSearchHistory(query, searchResult.parts).catch(err => {
+          console.error("Failed to save search history:", err);
+        });
+      }
 
       // Return results with error information
       res.json({ 

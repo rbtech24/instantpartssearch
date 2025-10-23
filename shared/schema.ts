@@ -33,7 +33,7 @@ export const searchHistorySchema = z.object({
   id: z.string(),
   query: z.string(),
   searchedAt: z.date(),
-  resultCount: z.number().optional(),
+  parts: z.array(partResultSchema).optional(),
 });
 
 export type SearchHistory = z.infer<typeof searchHistorySchema>;

@@ -1,57 +1,55 @@
 import { useQuery } from "@tanstack/react-query";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Clock, TrendingUp } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import type { SearchHistory } from "@shared/schema";
+import { TrendingUp } from "lucide-react";
+import { PartCard } from "@/components/PartCard";
+import type { SearchHistory, PartResult } from "@shared/schema";
 
-interface RecentSearchesProps {
-  onSearchClick: (query: string) => void;
-}
-
-export function RecentSearches({ onSearchClick }: RecentSearchesProps) {
+export function RecentSearches() {
   const { data, isLoading } = useQuery<{ searches: SearchHistory[] }>({
     queryKey: ["/api/recent-searches"],
     refetchInterval: 30000,
   });
 
-  if (isLoading || !data?.searches || data.searches.length === 0) {
+  // Flatten all parts from recent searches into a single array
+  const recentParts: PartResult[] = [];
+  if (data?.searches) {
+    for (const search of data.searches) {
+      if (search.parts && search.parts.length > 0) {
+        recentParts.push(...search.parts);
+      }
+    }
+  }
+
+  // Take first 12 unique parts (by ID)
+  const uniqueParts = recentParts.filter((part, index, self) => 
+    index === self.findIndex(p => p.id === part.id)
+  ).slice(0, 12);
+
+  if (isLoading || uniqueParts.length === 0) {
     return null;
   }
 
   return (
-    <section className="mt-8 pb-8" data-testid="section-recent-searches">
+    <section className="mt-12 pb-8" data-testid="section-recent-parts">
       <div className="container mx-auto px-4">
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-6">
           <TrendingUp className="h-5 w-5 text-muted-foreground" />
-          <h2 className="text-lg font-semibold" data-testid="heading-recent-searches">
-            Recently Searched by Others
+          <h2 className="text-xl font-semibold" data-testid="heading-recent-parts">
+            Recently Found Parts
           </h2>
+          <span className="text-sm text-muted-foreground">
+            Popular searches by other users
+          </span>
         </div>
         
-        <div className="flex flex-wrap gap-2">
-          {data.searches.slice(0, 15).map((search) => (
-            <Card
-              key={search.id}
-              className="hover-elevate active-elevate-2 cursor-pointer px-3 py-2 transition-all"
-              onClick={() => onSearchClick(search.query)}
-              data-testid={`card-recent-search-${search.id}`}
-            >
-              <div className="flex items-center gap-2">
-                <Clock className="h-3 w-3 text-muted-foreground" />
-                <span className="text-sm font-medium" data-testid={`text-search-query-${search.id}`}>
-                  {search.query}
-                </span>
-                {search.resultCount !== undefined && search.resultCount > 0 && (
-                  <Badge variant="secondary" className="text-xs" data-testid={`badge-result-count-${search.id}`}>
-                    {search.resultCount} results
-                  </Badge>
-                )}
-                <span className="text-xs text-muted-foreground" data-testid={`text-time-ago-${search.id}`}>
-                  {formatDistanceToNow(new Date(search.searchedAt), { addSuffix: true })}
-                </span>
-              </div>
-            </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {uniqueParts.map((part) => (
+            <PartCard
+              key={part.id}
+              part={part}
+              onCompare={() => {}}
+              isSelected={false}
+              data-testid={`card-recent-part-${part.id}`}
+            />
           ))}
         </div>
       </div>

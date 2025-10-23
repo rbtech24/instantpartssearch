@@ -7,7 +7,7 @@ export interface IStorage {
   setCachedSearch(query: string, results: SearchAllSuppliersResult): Promise<void>;
   
   // Search history management
-  addSearchHistory(query: string, resultCount: number): Promise<void>;
+  addSearchHistory(query: string, parts: PartResult[]): Promise<void>;
   getRecentSearches(limit?: number): Promise<SearchHistory[]>;
 }
 
@@ -42,12 +42,20 @@ export class MemStorage implements IStorage {
     });
   }
 
-  async addSearchHistory(query: string, resultCount: number): Promise<void> {
+  async addSearchHistory(query: string, parts: PartResult[]): Promise<void> {
+    // Only save if we have parts to show
+    if (parts.length === 0) {
+      return;
+    }
+
+    // Save top 5 parts max to keep data manageable
+    const topParts = parts.slice(0, 5);
+
     const searchEntry: SearchHistory = {
       id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       query,
       searchedAt: new Date(),
-      resultCount,
+      parts: topParts,
     };
 
     // Add to beginning of array

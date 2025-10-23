@@ -236,8 +236,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Recent Searches Section */}
-        <RecentSearches onSearchClick={handleSearch} />
+        {/* Recently Found Parts Section */}
+        <RecentSearches />
       </main>
     </div>
   );
