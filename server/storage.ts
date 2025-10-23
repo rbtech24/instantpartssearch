@@ -1,6 +1,6 @@
 import type { PartResult, SearchHistory } from "@shared/schema";
 import type { SearchAllSuppliersResult } from "./scraper";
-import { createDemoSearchHistory } from "./demo-data";
+import { createDemoSearchHistory, createDemoSearchForWPW10321304 } from "./demo-data";
 
 export interface IStorage {
   // Cache management
@@ -24,6 +24,18 @@ export class MemStorage implements IStorage {
     this.searchHistory = useDemoData ? createDemoSearchHistory() : [];
     
     if (useDemoData) {
+      // Pre-cache demo search for WPW10321304
+      const wpw10321304Parts = createDemoSearchForWPW10321304();
+      this.searchCache.set("wpw10321304", {
+        results: {
+          parts: wpw10321304Parts,
+          errors: [],
+          successCount: 8,
+          totalCount: 9
+        },
+        timestamp: Date.now()
+      });
+      
       console.log("✨ Initialized storage with demo data for showcase");
     }
   }

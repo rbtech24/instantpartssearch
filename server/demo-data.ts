@@ -328,3 +328,105 @@ export function createDemoSearchHistory(): SearchHistory[] {
     }
   ];
 }
+
+// Create demo search results for specific part number searches
+export function createDemoSearchForWPW10321304(): PartResult[] {
+  return [
+    {
+      id: "wpw10321304-repairclinic",
+      title: "Whirlpool Refrigerator Door Gasket WPW10321304",
+      partNumber: "WPW10321304",
+      supplier: "RepairClinic",
+      price: 89.99,
+      currency: "USD",
+      availability: "in_stock",
+      imageUrl: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=400&fit=crop",
+      productUrl: "#",
+      shippingInfo: "Free shipping on orders over $50"
+    },
+    {
+      id: "wpw10321304-partselect",
+      title: "Door Gasket for Whirlpool WPW10321304",
+      partNumber: "WPW10321304",
+      supplier: "PartSelect",
+      price: 84.95,
+      currency: "USD",
+      availability: "in_stock",
+      imageUrl: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=400&fit=crop",
+      productUrl: "#",
+      shippingInfo: "Same day shipping if ordered by 4PM EST"
+    },
+    {
+      id: "wpw10321304-amazon",
+      title: "Whirlpool WPW10321304 Refrigerator Door Seal Gasket",
+      partNumber: "WPW10321304",
+      supplier: "Amazon",
+      price: 92.50,
+      currency: "USD",
+      availability: "in_stock",
+      imageUrl: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=400&fit=crop",
+      productUrl: "#",
+      shippingInfo: "Prime eligible - Free 2-day shipping"
+    },
+    {
+      id: "wpw10321304-encompass",
+      title: "OEM Whirlpool Refrigerator Door Gasket WPW10321304",
+      partNumber: "WPW10321304",
+      supplier: "Encompass",
+      price: 87.99,
+      currency: "USD",
+      availability: "in_stock",
+      imageUrl: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=400&fit=crop",
+      productUrl: "#",
+      shippingInfo: "Free shipping on orders over $75"
+    },
+    {
+      id: "wpw10321304-marcone",
+      title: "Whirlpool Door Gasket WPW10321304 - Genuine OEM",
+      partNumber: "WPW10321304",
+      supplier: "Marcone",
+      price: 91.25,
+      currency: "USD",
+      availability: "in_stock",
+      imageUrl: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=400&fit=crop",
+      productUrl: "#",
+      shippingInfo: "Next-day delivery available"
+    },
+    {
+      id: "wpw10321304-appliancepartspros",
+      title: "Refrigerator Door Seal Gasket WPW10321304",
+      partNumber: "WPW10321304",
+      supplier: "AppliancePartsPros",
+      price: 85.99,
+      currency: "USD",
+      availability: "in_stock",
+      imageUrl: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=400&fit=crop",
+      productUrl: "#",
+      shippingInfo: "Ships within 1-2 business days"
+    },
+    {
+      id: "wpw10321304-reliableparts",
+      title: "WPW10321304 Whirlpool Refrigerator Gasket",
+      partNumber: "WPW10321304",
+      supplier: "ReliableParts.com",
+      price: 88.50,
+      currency: "USD",
+      availability: "low_stock",
+      imageUrl: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=400&fit=crop",
+      productUrl: "#",
+      shippingInfo: "Only 2 left in stock"
+    },
+    {
+      id: "wpw10321304-sundberg",
+      title: "Whirlpool OEM Door Gasket WPW10321304",
+      partNumber: "WPW10321304",
+      supplier: "Sundberg",
+      price: 86.75,
+      currency: "USD",
+      availability: "in_stock",
+      imageUrl: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&h=400&fit=crop",
+      productUrl: "#",
+      shippingInfo: "2-day shipping"
+    }
+  ];
+}
