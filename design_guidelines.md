@@ -1,4 +1,4 @@
-# Design Guidelines: Instant Appliance Parts Search
+# Design Guidelines: Instant Parts Search (instantpartssearch.com)
 
 ## Design Approach
 

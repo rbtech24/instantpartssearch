@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { SearchBar } from "@/components/SearchBar";
 import { PartCard } from "@/components/PartCard";
 import { SearchProgress } from "@/components/SearchProgress";
@@ -10,111 +11,61 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Filter, SlidersHorizontal } from "lucide-react";
 import type { PartResult } from "@shared/schema";
-
-// todo: remove mock functionality
-const MOCK_PARTS: PartResult[] = [
-  {
-    id: "1",
-    title: "Whirlpool Refrigerator Door Gasket Seal - OEM",
-    partNumber: "WPW10321304",
-    supplier: "Amazon",
-    price: 38.99,
-    currency: "USD",
-    availability: "in_stock",
-    productUrl: "https://example.com/part1",
-    shippingInfo: "Prime - Free 2-day",
-  },
-  {
-    id: "2",
-    title: "Genuine Whirlpool Door Gasket WPW10321304",
-    partNumber: "WPW10321304",
-    supplier: "ReliableParts.com",
-    price: 41.50,
-    currency: "USD",
-    availability: "in_stock",
-    productUrl: "https://example.com/part2",
-    shippingInfo: "Free shipping",
-  },
-  {
-    id: "3",
-    title: "Whirlpool Refrigerator Door Gasket Seal",
-    partNumber: "WPW10321304",
-    supplier: "RepairClinic",
-    price: 42.99,
-    currency: "USD",
-    availability: "in_stock",
-    productUrl: "https://example.com/part3",
-    shippingInfo: "Free shipping",
-  },
-  {
-    id: "4",
-    title: "Whirlpool Door Seal Assembly",
-    partNumber: "WPW10321304",
-    supplier: "AppliancePartsPros",
-    price: 45.50,
-    currency: "USD",
-    availability: "in_stock",
-    productUrl: "https://example.com/part4",
-    shippingInfo: "$5.99 shipping",
-  },
-  {
-    id: "5",
-    title: "OEM Refrigerator Door Gasket",
-    partNumber: "WPW10321304",
-    supplier: "PartSelect",
-    price: 39.95,
-    currency: "USD",
-    availability: "low_stock",
-    productUrl: "https://example.com/part5",
-    shippingInfo: "Free shipping",
-  },
-  {
-    id: "6",
-    title: "Whirlpool Fridge Door Seal",
-    partNumber: "WPW10321304",
-    supplier: "Sears Parts",
-    price: 48.00,
-    currency: "USD",
-    availability: "out_of_stock",
-    productUrl: "https://example.com/part6",
-    shippingInfo: "N/A",
-  },
-];
-
-const MOCK_SUPPLIERS = [
-  { name: "Amazon", status: "complete" as const },
-  { name: "ReliableParts.com", status: "complete" as const },
-  { name: "RepairClinic", status: "complete" as const },
-  { name: "AppliancePartsPros", status: "complete" as const },
-  { name: "PartSelect", status: "complete" as const },
-  { name: "Sears Parts", status: "complete" as const },
-];
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [results, setResults] = useState<PartResult[]>([]);
+  const [activeSearch, setActiveSearch] = useState("");
   const [selectedParts, setSelectedParts] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("price-low");
+  const [filters, setFilters] = useState<{
+    minPrice?: number;
+    maxPrice?: number;
+    availability?: string[];
+    suppliers?: string[];
+  }>({});
 
-  // todo: remove mock functionality
+  // Fetch search results from backend
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['/api/search', activeSearch, filters],
+    queryFn: async () => {
+      if (!activeSearch) return null;
+      
+      const response = await apiRequest('POST', '/api/search', {
+        query: activeSearch,
+        filters: Object.keys(filters).length > 0 ? filters : undefined,
+      });
+      
+      return await response.json() as { 
+        results: PartResult[]; 
+        cached: boolean; 
+        errors?: Array<{ supplier: string; error: string }>;
+        successCount?: number;
+        totalCount?: number;
+        searchedAt: string 
+      };
+    },
+    enabled: !!activeSearch,
+  });
+
+  const results = data?.results || [];
+  const searchErrors = data?.errors || [];
+  const hasSearched = !!activeSearch;
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    setIsSearching(true);
-    setHasSearched(true);
-
-    // Simulate search delay
-    setTimeout(() => {
-      setResults(MOCK_PARTS);
-      setIsSearching(false);
-    }, 2000);
+    setActiveSearch(query);
+    setSelectedParts([]);
   };
 
   const handleCompare = (partId: string) => {
     setSelectedParts((prev) =>
       prev.includes(partId) ? prev.filter((id) => id !== partId) : [...prev, partId]
     );
+  };
+
+  const handleFilterChange = (newFilters: typeof filters) => {
+    setFilters(newFilters);
   };
 
   const sortedResults = [...results].sort((a, b) => {
@@ -138,16 +89,16 @@ export default function Home() {
           <div className="flex items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-2">
               <div className="h-8 w-8 rounded-md bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">P</span>
+                <span className="text-primary-foreground font-bold text-lg">I</span>
               </div>
-              <h1 className="text-2xl font-bold" data-testid="text-app-title">PartsFind</h1>
+              <h1 className="text-2xl font-bold" data-testid="text-app-title">Instant Parts Search</h1>
             </div>
             <ThemeToggle />
           </div>
           <SearchBar
             onSearch={handleSearch}
             placeholder="Search part number or description..."
-            isLoading={isSearching}
+            isLoading={isLoading}
           />
         </div>
       </header>
@@ -157,15 +108,27 @@ export default function Home() {
           {/* Desktop Filters */}
           <aside className="hidden lg:block w-72 shrink-0">
             <div className="sticky top-24">
-              <FilterPanel onFilterChange={(filters) => console.log('Filters:', filters)} />
+              <FilterPanel onFilterChange={handleFilterChange} />
             </div>
           </aside>
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
-            {isSearching ? (
+            {error ? (
+              <div className="text-center py-16">
+                <p className="text-destructive font-semibold mb-2">Search Error</p>
+                <p className="text-muted-foreground">
+                  {error instanceof Error ? error.message : 'Failed to search. Please try again.'}
+                </p>
+              </div>
+            ) : isLoading ? (
               <div className="max-w-md mx-auto">
-                <SearchProgress suppliers={MOCK_SUPPLIERS} />
+                <SearchProgress 
+                  suppliers={[
+                    { name: "Amazon", status: "searching" },
+                    { name: "RepairClinic", status: "searching" },
+                  ]} 
+                />
               </div>
             ) : !hasSearched ? (
               <EmptyState type="initial" />
@@ -173,11 +136,33 @@ export default function Home() {
               <EmptyState type="no-results" query={searchQuery} />
             ) : (
               <>
+                {/* Search Status Messages */}
+                {searchErrors.length > 0 && (
+                  <div className="mb-4 p-4 bg-muted rounded-md">
+                    <p className="text-sm font-medium mb-2">
+                      Some suppliers could not be searched:
+                    </p>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      {searchErrors.map((err, idx) => (
+                        <li key={idx}>
+                          <span className="font-medium">{err.supplier}:</span> {err.error}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
                 {/* Results Header */}
                 <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
                   <div className="flex items-center gap-4">
                     <p className="text-muted-foreground" data-testid="text-results-count">
                       {results.length} results found
+                      {data?.cached && <span className="ml-2 text-xs">(cached)</span>}
+                      {data?.successCount !== undefined && data?.totalCount !== undefined && (
+                        <span className="ml-2 text-xs">
+                          ({data.successCount}/{data.totalCount} suppliers)
+                        </span>
+                      )}
                     </p>
                     
                     {/* Mobile Filter Button */}
@@ -189,7 +174,7 @@ export default function Home() {
                         </Button>
                       </SheetTrigger>
                       <SheetContent side="left" className="w-80 overflow-y-auto">
-                        <FilterPanel onFilterChange={(filters) => console.log('Filters:', filters)} />
+                        <FilterPanel onFilterChange={handleFilterChange} />
                       </SheetContent>
                     </Sheet>
                   </div>

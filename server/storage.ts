@@ -1,37 +1,38 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import type { PartResult } from "@shared/schema";
+import type { SearchAllSuppliersResult } from "./scraper";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  // Cache management
+  getCachedSearch(query: string): Promise<SearchAllSuppliersResult | undefined>;
+  setCachedSearch(query: string, results: SearchAllSuppliersResult): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+  private searchCache: Map<string, { results: SearchAllSuppliersResult; timestamp: number }>;
+  private readonly CACHE_TTL = 3600000; // 1 hour in milliseconds
 
   constructor() {
-    this.users = new Map();
+    this.searchCache = new Map();
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getCachedSearch(query: string): Promise<SearchAllSuppliersResult | undefined> {
+    const cached = this.searchCache.get(query.toLowerCase());
+    if (!cached) return undefined;
+
+    // Check if cache is still valid
+    if (Date.now() - cached.timestamp > this.CACHE_TTL) {
+      this.searchCache.delete(query.toLowerCase());
+      return undefined;
+    }
+
+    return cached.results;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async setCachedSearch(query: string, results: SearchAllSuppliersResult): Promise<void> {
+    this.searchCache.set(query.toLowerCase(), {
+      results,
+      timestamp: Date.now(),
+    });
   }
 }
 
