@@ -1,5 +1,6 @@
 import type { PartResult, SearchHistory } from "@shared/schema";
 import type { SearchAllSuppliersResult } from "./scraper";
+import { createDemoSearchHistory } from "./demo-data";
 
 export interface IStorage {
   // Cache management
@@ -17,9 +18,14 @@ export class MemStorage implements IStorage {
   private readonly CACHE_TTL = 3600000; // 1 hour in milliseconds
   private readonly MAX_HISTORY = 50; // Keep last 50 searches
 
-  constructor() {
+  constructor(useDemoData: boolean = true) {
     this.searchCache = new Map();
-    this.searchHistory = [];
+    // Initialize with demo data for showcasing the app
+    this.searchHistory = useDemoData ? createDemoSearchHistory() : [];
+    
+    if (useDemoData) {
+      console.log("✨ Initialized storage with demo data for showcase");
+    }
   }
 
   async getCachedSearch(query: string): Promise<SearchAllSuppliersResult | undefined> {
