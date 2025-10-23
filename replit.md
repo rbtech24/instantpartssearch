@@ -36,6 +36,17 @@ Instant Parts Search allows users to search for appliance parts across multiple 
 - In-memory result caching
 - Rate limiting for API protection
 
+## Demo Data
+
+The application currently uses **realistic demo data** to showcase features while web scraping is limited by anti-bot protections. The demo includes:
+
+- **15 realistic appliance parts**: refrigerator gaskets, water filters, dishwasher parts, dryer belts, igniters, etc.
+- **5 sample searches**: Showcasing different part categories
+- **13 unique products**: Displayed in the "Recently Found Parts" section
+- **Real pricing**: $12.99 to $189.99 from various suppliers
+
+To disable demo data and use only real search results, set `useDemoData: false` in the MemStorage constructor.
+
 ## Important Notes About Web Scraping
 
 ### Current Limitations
@@ -56,6 +67,8 @@ The application implements web scraping for supplier websites, but there are imp
    - Time-based blocking
 
 3. **Legal Considerations**: Web scraping may violate some websites' Terms of Service
+
+**Current Status**: Web scrapers return HTTP 503 (Amazon) and HTTP 403 (RepairClinic) due to anti-bot protections. Demo data is used to showcase the application features.
 
 ### Recommended Improvements for Production
 
