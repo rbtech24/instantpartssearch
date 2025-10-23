@@ -20,7 +20,7 @@ export function FilterPanel({ onFilterChange }: FilterPanelProps) {
   const [selectedAvailability, setSelectedAvailability] = useState<string[]>(["in_stock", "low_stock"]);
   const [selectedSuppliers, setSelectedSuppliers] = useState<string[]>([]);
 
-  const suppliers = ["Amazon", "ReliableParts.com", "RepairClinic", "AppliancePartsPros", "PartSelect", "Sears Parts"];
+  const suppliers = ["Amazon", "ReliableParts.com", "RepairClinic", "AppliancePartsPros", "PartSelect", "Sears Parts", "Encompass", "Marcone", "Sundberg"];
 
   const handleAvailabilityToggle = (value: string) => {
     setSelectedAvailability(prev =>
